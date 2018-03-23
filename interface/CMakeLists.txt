@@ -21,7 +21,6 @@ endif ()
 
 set(RESOURCES_QRC ${CMAKE_CURRENT_BINARY_DIR}/resources.qrc)
 set(RESOURCES_RCC ${CMAKE_CURRENT_SOURCE_DIR}/compiledResources/resources.rcc)
-generate_qrc(OUTPUT ${RESOURCES_QRC} PATH ${CMAKE_CURRENT_SOURCE_DIR}/resources CUSTOM_PATHS ${CUSTOM_INTERFACE_QRC_PATHS} GLOBS *)
 
 add_custom_command(
     OUTPUT ${RESOURCES_RCC}
@@ -190,8 +189,11 @@ if (WIN32)
 
   if (CMAKE_SIZEOF_VOID_P EQUAL 8) # support Win64 only
     add_dependency_external_projects(binaryvr)
+    add_custom_qrc_path(CUSTOM_INTERFACE_QRC_PATHS "${BINARYVR_SOURCE_DIR}/models/model.bfh" "binaryfacehmd/model.bfh")
   endif()
 endif()
+
+generate_qrc(OUTPUT ${RESOURCES_QRC} PATH ${CMAKE_CURRENT_SOURCE_DIR}/resources CUSTOM_PATHS ${CUSTOM_INTERFACE_QRC_PATHS} GLOBS *)
 
 # include OPENSSL
 include_directories(SYSTEM "${OPENSSL_INCLUDE_DIR}")

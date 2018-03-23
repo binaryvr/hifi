@@ -83,8 +83,9 @@ void BinaryFaceHMDTracker::init() {
     setEnabled(Menu::getInstance()->isOptionChecked(MenuOption::BinaryFaceHMD) && !_isMuted);
 }
 
+
 void BinaryFaceHMDTracker::openContext() {
-    QString model_file_path = PathUtils::resourcesPath() + "binaryfacehmd/model.bfh";
+    QString model_file_path = PathUtils::extractResourceToCache("binaryfacehmd/model.bfh");
     QString cache_dir_path = PathUtils::getAppLocalDataPath();
     binaryfacehmd_ret ret = binaryfacehmd_open_context(
     model_file_path.toStdString().c_str(),

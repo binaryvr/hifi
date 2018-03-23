@@ -277,3 +277,37 @@ bool PathUtils::isDescendantOf(const QUrl& childURL, const QUrl& parentURL) {
     QString parent = stripFilename(parentURL);
     return child.startsWith(parent, PathUtils::getFSCaseSensitivity());
 }
+
+QString PathUtils::extractResourceToCache(const QString& resource) {
+    QString sourceFile = PathUtils::resourcesPath() + resource;
+#if defined(Q_OS_MAC)
+    return sourceFile;
+#else
+    QFileInfo sourceInfo(sourceFile);
+    QString targetFile = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/resources/" + resource;
+    QFileInfo targetInfo(targetFile);
+    QDir targetDir = targetInfo.absoluteDir();
+    if (!targetDir.exists()) {
+        targetDir.mkpath(".");
+    }
+
+    // If the target file exists and is up to date, we're done
+    // FIXME find a safer way to detect changes in the source file
+    if (targetInfo.exists() && targetInfo.size() == sourceInfo.size()) {
+        return targetFile;
+    }
+
+    if (targetInfo.exists()) {
+        if (!QFile::remove(targetFile)) {
+            qWarning() << "Unable to remove existing cached file" << targetFile;
+            return QString();
+        }
+    }
+
+    if (!QFile::copy(sourceFile, targetFile)) {
+        qWarning() << "Unable to copy resource " << sourceFile << "to cache" << targetFile;
+        return QString();
+    }
+    return targetFile;
+#endif
+}

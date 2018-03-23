@@ -57,6 +57,12 @@ public:
     // note: this is FS-case-sensitive version of parentURL.isParentOf(childURL)
     static bool isDescendantOf(const QUrl& childURL, const QUrl& parentURL);
     static QUrl defaultScriptsLocation(const QString& newDefault = "");
+
+    // This code is for extracting a resource out of the Qt binary to 
+    // the local filesystem.  The use case is to be able to package resources
+    // but then use those resources with external code that may require a file 
+    // location but not be aware of the Qt resource system.  
+    static QString extractResourceToCache(const QString& resource);
 };
 
 QString fileNameWithoutExtension(const QString& fileName, const QVector<QString> possibleExtensions);
