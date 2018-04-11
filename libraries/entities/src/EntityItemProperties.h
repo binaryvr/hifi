@@ -208,7 +208,7 @@ public:
     DEFINE_PROPERTY(PROP_NORMALS, Normals, normals, QVector<glm::vec3>, ENTITY_ITEM_DEFAULT_EMPTY_VEC3_QVEC);
     DEFINE_PROPERTY(PROP_STROKE_COLORS, StrokeColors, strokeColors, QVector<glm::vec3>, ENTITY_ITEM_DEFAULT_EMPTY_VEC3_QVEC);
     DEFINE_PROPERTY(PROP_STROKE_WIDTHS, StrokeWidths, strokeWidths, QVector<float>, QVector<float>());
-	DEFINE_PROPERTY(PROP_IS_UV_MODE_STRETCH, IsUVModeStretch, isUVModeStretch, bool, true);
+    DEFINE_PROPERTY(PROP_IS_UV_MODE_STRETCH, IsUVModeStretch, isUVModeStretch, bool, true);
     DEFINE_PROPERTY_REF(PROP_X_TEXTURE_URL, XTextureURL, xTextureURL, QString, "");
     DEFINE_PROPERTY_REF(PROP_Y_TEXTURE_URL, YTextureURL, yTextureURL, QString, "");
     DEFINE_PROPERTY_REF(PROP_Z_TEXTURE_URL, ZTextureURL, zTextureURL, QString, "");
@@ -326,7 +326,7 @@ public:
     void clearSimulationOwner();
     void setSimulationOwner(const QUuid& id, uint8_t priority);
     void setSimulationOwner(const QByteArray& data);
-    void promoteSimulationPriority(quint8 priority) { _simulationOwner.promotePriority(priority); }
+    void promoteSimulationPriority(uint8_t priority) { _simulationOwner.promotePriority(priority); }
 
     void setActionDataDirty() { _actionDataChanged = true; }
 
@@ -501,6 +501,12 @@ inline QDebug operator<<(QDebug debug, const EntityItemProperties& properties) {
     DEBUG_PROPERTY_IF_CHANGED(debug, properties, EntityInstanceNumber, entityInstanceNumber, "");
     DEBUG_PROPERTY_IF_CHANGED(debug, properties, CertificateID, certificateID, "");
     DEBUG_PROPERTY_IF_CHANGED(debug, properties, StaticCertificateVersion, staticCertificateVersion, "");
+
+    DEBUG_PROPERTY_IF_CHANGED(debug, properties, LocalPosition, localPosition, "");
+    DEBUG_PROPERTY_IF_CHANGED(debug, properties, LocalRotation, localRotation, "");
+    DEBUG_PROPERTY_IF_CHANGED(debug, properties, LocalVelocity, localVelocity, "");
+    DEBUG_PROPERTY_IF_CHANGED(debug, properties, LocalAngularVelocity, localAngularVelocity, "");
+    DEBUG_PROPERTY_IF_CHANGED(debug, properties, LocalDimensions, localDimensions, "");
 
     DEBUG_PROPERTY_IF_CHANGED(debug, properties, HazeMode, hazeMode, "");
     DEBUG_PROPERTY_IF_CHANGED(debug, properties, KeyLightMode, keyLightMode, "");
